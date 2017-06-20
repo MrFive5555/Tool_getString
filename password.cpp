@@ -82,7 +82,7 @@ int getNumber() throw (ReGet)
     }
 }
 
-
+//regex
 bool is_email_valid(const std::string& email)
 {
     //const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
