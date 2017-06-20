@@ -60,8 +60,6 @@ string getString() throw (ReGet)
     return retstr;
 }
 
-
-#define ERROR_STRING "abcdefghijklmnopqrst"
 int getNumber() throw (ReGet)
 {
     while (1) {
