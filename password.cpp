@@ -9,10 +9,6 @@
 
 using namespace std;
 
-class ReGet : public exception {
-
-};
-
 class Esc : public exception {
 
 };
