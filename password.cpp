@@ -13,16 +13,27 @@ class ReGet : public exception {
 
 };
 
+class Esc : public exception {
+
+};
+
+#define MAX_PASSWORD_LENGTH 16
 string getPassword()
 {
+    cout << "# ";
     string retstr;
     char ch = 0;
     while ((ch = getch()) != '\r') {
-        if ( ch == '\b') {
+        if (ch == '\b') {
             if (!retstr.empty()) {
                 cout << "\b \b";
                 retstr.pop_back();
             }
+        } else if (retstr.length() >= MAX_PASSWORD_LENGTH) {
+            continue;
+        } else if (ch == 27) { //Esc
+            cout << endl;
+            throw Esc();
         } else {
             cout << "*";
             retstr.push_back(ch);
@@ -35,7 +46,7 @@ string getPassword()
 
 #define MAX_STRING_LENGTH 16
 //ÊäÈëEsc½áÊø
-string getString() throw (ReGet)
+string getString() throw (Esc)
 {
     cout << "# ";
     string retstr;
@@ -49,7 +60,8 @@ string getString() throw (ReGet)
         } else if (retstr.length() >= MAX_STRING_LENGTH) {
             continue;
         } else if (ch == 27) { //Esc
-            throw ReGet();
+            cout << endl;
+            throw Esc();
         } else {
             cout << ch;
             retstr.push_back(ch);
@@ -60,7 +72,7 @@ string getString() throw (ReGet)
     return retstr;
 }
 
-int getNumber() throw (ReGet)
+int getNumber() throw (Esc)
 {
     while (1) {
         try {
@@ -76,8 +88,8 @@ int getNumber() throw (ReGet)
             } else {
                 return temp;
             }
-        } catch (ReGet) {
-            throw ReGet();
+        } catch (Esc) {
+            throw Esc();
         }
     }
 }
@@ -96,5 +108,11 @@ bool is_email_valid(const std::string& email)
 
 int main()
 {
-
+    string password;
+    try {
+        password = getPassword();
+        cout << password << endl;
+    } catch (Esc) {
+        cout << "Esc" << endl;
+    }
 }
